@@ -1,0 +1,109 @@
+server:
+  port: 18151
+  tomcat:
+    basedir: /home/logs/${spring.application.name}/tomcat
+spring:
+  application:
+    name: drools
+  profiles:
+    active: qa
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 20MB
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  datasource:
+    druid:
+      # 初始化连接数
+      initial-size: 5
+      # 最小连接数
+      min-idle: 10
+      # 最大连接数
+      max-active: 100
+      # 获取连接等待超时时间
+      max-wait: 20000
+      # 检测间隔时长，检测需要关闭的空闲连接
+      time-between-eviction-runs-millis: 60000
+      # 连接最小生存时长
+      min-evictable-idle-time-millis: 30000
+      # 检测语句
+      validation-query: select 1
+      # 从连接池中获取连接时，当连接空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效
+      test-while-idle: true
+      # 从连接池中获取连接时，是否检测连接有效性，true: 检测，false: 不检测。设置为true，每次检测会影响性能
+      test-on-borrow: false
+      # 将连接归还连接池时，是否检测连接有效性
+      test-on-return: false
+      pool-prepared-statements: false
+      # 合并多个数据源的监控数据
+      use-global-data-source-stat: true
+      filter:
+        stat:
+          enabled: true
+          merge-sql: true
+          slow-sql-millis: 10000
+        # 防火墙
+        wall:
+          enabled: true
+          config:
+            # 允许批量执行sql
+            multi-statement-allow: true
+        slf4j:
+          enabled: true
+
+logging:
+  level:
+    root: debug
+    # 调用其他服务时，可以打印调用的是哪个实例
+    com.netflix.loadbalancer.LoadBalancerContext: debug
+    # 打印 SQL
+    com.athub.framework.common.dao.mapper: debug
+    # 打印 SQL
+    com.athub.convergence.dao.mapper: debug
+
+  file:
+    path: /home/logs/${spring.application.name}
+    name: ${logging.file.path}/${spring.application.name}.log
+  logback:
+    rollingpolicy:
+      max-file-size: 100MB
+      max-history: 7
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**Mapper.xml
+  global-config:
+    db-config:
+      logic-delete-value: 'null'
+      logic-not-delete-value: '0'
+      logic-delete-field: deleted
+
+ribbon:
+  ReadTimeout: 120000
+  ConnectTimeout: 120000
+
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 60
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
+
+athub:
+  permission:
+    authentication:
+      white-list:
+        - /websocketLink*/**

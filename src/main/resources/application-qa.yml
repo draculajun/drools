@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: jdbc:mysql://172.16.0.180:3306/incident?serverTimezone=Asia/Shanghai&characterEncoding=UTF-8&useSSL=true&allowMultiQueries=true&rewriteBatchedStatements=true
+    username: ticket
+    password: ticket123
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      stat-view-servlet:
+        enabled: true
+  redis:
+    cluster:
+      nodes: 172.16.0.176:7000,172.16.0.177:7000,172.16.0.178:7000,172.16.0.176:7001,172.16.0.177:7001,172.16.0.178:7001
+  quartz:
+    auto-startup: true
+    job-store-type: memory
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://172.16.0.176:8761/eureka
