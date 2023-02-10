@@ -17,4 +17,8 @@
     <kbase name="isQuery" packages="rules.isQuery">
         <ksession name="isQuerySession"/>
     </kbase>
+
+    <kbase name="isFunction" packages="rules.isFunction">
+        <ksession name="isFunctionSession"/>
+    </kbase>
 </kmodule>

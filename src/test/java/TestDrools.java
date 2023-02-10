@@ -101,4 +101,15 @@ public class TestDrools {
 
         kieSession.dispose();
     }
+
+    /**
+     * function:在同逻辑路径（rules.isFunction）下是全局性的，也可以在java类中定义静态方法， 在drl里导入后使用
+     */
+    @Test
+    public void functionTest() {
+        KieSession kieSession = kieContainer.newKieSession("isFunctionSession");
+        kieSession.fireAllRules();
+        kieSession.dispose();
+    }
+
 }

@@ -1,0 +1,15 @@
+package rules.isFunction;
+
+import com.athub.rules.entity.Person;
+
+rule "function1"
+    when
+        eval(true)
+    then
+        System.out.println(function01("function01"));
+end
+
+function String function01(String name) {
+    System.out.println("call function01");
+    return name;
+}
