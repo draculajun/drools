@@ -51,17 +51,19 @@ public class TestDrools {
 
     @Test
     public void personTest() {
-        KieSession kieSession = kieContainer.newKieSession();
+        KieSession kieSession = kieContainer.newKieSession("person");   //需要kmodule.xml中定义
         Person person = new Person();
+        int rulesNums;
         try {
             person.setName("aaa");
             person.setAge(31);
             kieSession.insert(person);
-            kieSession.fireAllRules();
+            rulesNums = kieSession.fireAllRules();
         } finally {
             kieSession.dispose();
         }
 
+        System.out.println("总共执行了" + rulesNums + "个规则");
         System.out.println("规则执行完成，关闭规则");
         System.out.println(person);
     }
