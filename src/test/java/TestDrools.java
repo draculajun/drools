@@ -1,7 +1,10 @@
 import com.athub.Application;
 import com.athub.rules.entity.Order;
+import com.athub.rules.entity.Person;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import org.kie.api.KieServices;
+import org.kie.api.builder.KieFileSystem;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +20,11 @@ public class TestDrools {
     @Autowired
     private KieContainer kieContainer;
 
+    @Autowired
+    private KieFileSystem kieFileSystem;
+
     @Test
-    public void test() {
+    public void orderTest() {
 //        //第一步 获取KieServices
 //        KieServices kieServices = KieServices.Factory.get();
 //        //第二步获取kieContainer
@@ -43,4 +49,26 @@ public class TestDrools {
         System.out.println(order);
     }
 
+    @Test
+    public void personTest() {
+        KieSession kieSession = kieContainer.newKieSession();
+        Person person = new Person();
+        try {
+            person.setName("aaa");
+            person.setAge(31);
+            kieSession.insert(person);
+            kieSession.fireAllRules();
+        } finally {
+            kieSession.dispose();
+        }
+
+        System.out.println("规则执行完成，关闭规则");
+        System.out.println(person);
+    }
+
+    @Test
+    public void personTest2() {
+        KieServices kieServices = KieServices.Factory.get();
+
+    }
 }
