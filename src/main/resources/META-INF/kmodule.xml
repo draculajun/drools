@@ -13,4 +13,8 @@
         <ksession name="simpleRuleKSession" default="true"/>
         <ksession name="person"/>
     </kbase>
+
+    <kbase name="isQuery" packages="rules.isQuery">
+        <ksession name="isQuerySession"/>
+    </kbase>
 </kmodule>

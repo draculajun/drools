@@ -1,0 +1,7 @@
+package rules.isQuery;
+
+import com.athub.rules.entity.Person;
+
+query "pquery"(String $name, Integer $age)
+    person: Person(name contains $name, age == $age)
+end

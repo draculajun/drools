@@ -1,21 +1,30 @@
 package rules;
 
 import com.athub.rules.entity.Person;
+global java.lang.Integer count;
 
 rule "person_1"
-    // lock-on-active true
-    // no-loop true
+    // lock-on-active true  防止死循环，定以后指定rule只执行一次
+    // no-loop true 防止死循环
+    // salience 100 设置执行顺序，值越大执行优先级越高
+    enabled false
+    // dialect "java"
     when
         $person:Person(age < 30);
     then
         $person.setScore(80);
+        System.out.println("count:" + count);
         System.out.println("触发规则，30岁以下得80分");
 end
 
 rule "person_2"
+    enabled false
     when
         $person:Person(30 < age && age< 40)
     then
         $person.setScore(70);
+        System.out.println("count before:" + count);
+        count = 70;
+        System.out.println("count after:" + count);
         System.out.println("触发规则，30岁-40岁得70分");
 end

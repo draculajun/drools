@@ -14,14 +14,14 @@ public class DroolsConfig {
 
     @Bean
     public KieContainer kieContainer() {
-        KieServices kieServices = KieServices.get();
+        KieServices kieServices = KieServices.Factory.get();
         return kieServices.getKieClasspathContainer();
     }
 
     @Bean
     public KieFileSystem kieFileSystem() {
-        KieServices ks = KieServices.Factory.get();
-        return ks.newKieFileSystem();
+        KieServices kieServices = KieServices.Factory.get();
+        return kieServices.newKieFileSystem();
     }
 
 }
