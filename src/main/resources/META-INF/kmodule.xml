@@ -21,4 +21,9 @@
     <kbase name="isFunction" packages="rules.isFunction">
         <ksession name="isFunctionSession"/>
     </kbase>
+
+    <kbase name="isFrom" packages="rules.isFrom">
+        <ksession name="isFromSession"/>
+    </kbase>
+
 </kmodule>

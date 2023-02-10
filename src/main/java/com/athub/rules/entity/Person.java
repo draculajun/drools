@@ -20,6 +20,8 @@ public class Person {
 
     private Integer score;
 
+    private String className;
+
     @Override
     public String toString() {
         return "Person{" +

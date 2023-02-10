@@ -1,0 +1,12 @@
+package rules.isFrom;
+
+import com.athub.rules.entity.Person;
+import com.athub.rules.entity.School;
+
+rule "from1"
+    when
+        $s:School()
+        $p:Person(className=="class1") from $s.getPersonList()
+    then
+        System.out.println("姓名：" + $p.getName());
+end

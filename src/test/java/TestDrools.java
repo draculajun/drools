@@ -1,6 +1,7 @@
 import com.athub.Application;
 import com.athub.rules.entity.Order;
 import com.athub.rules.entity.Person;
+import com.athub.rules.entity.School;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.kie.api.builder.KieFileSystem;
@@ -10,6 +11,9 @@ import org.kie.api.runtime.rule.QueryResults;
 import org.kie.api.runtime.rule.QueryResultsRow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author Wang wenjun
@@ -112,4 +116,27 @@ public class TestDrools {
         kieSession.dispose();
     }
 
+    /**
+     * 条件元素from：可以便利集合中的所有对象，匹配每一个对象的值
+     */
+    @Test
+    public void fromTest() {
+        KieSession kieSession = kieContainer.newKieSession("isFromSession");
+
+        List<Person> personList = new ArrayList<>();
+        Person p1 = Person.builder().name("p1").age(10).className("class1").build();
+        Person p2 = Person.builder().name("p2").age(11).className("class2").build();
+        Person p3 = Person.builder().name("p3").age(12).className("class1").build();
+        personList.add(p1);
+        personList.add(p2);
+        personList.add(p3);
+        School school = new School();
+        school.setPersonList(personList);
+
+        kieSession.insert(school);
+        int count = kieSession.fireAllRules();
+        System.out.println("总共执行了" + count + "个规则");
+
+        kieSession.dispose();
+    }
 }

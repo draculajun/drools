@@ -18,7 +18,6 @@ rule "person_1"
 end
 
 rule "person_2"
-    enabled false
     when
         $person:Person(30 < age && age< 40)
     then
