@@ -1,12 +1,14 @@
 package rules.ifCollect;
 
 import com.athub.rules.entity.Person;
-import com.athub.rules.entity.School;
+//import com.athub.rules.entity.School;
 import java.util.ArrayList;
 
 rule "collect1"
     when
         $al:ArrayList(size()>=1) from collect($p:Person(className=="class1"));
+//        $s:School()
+//        $al:ArrayList() from collect(Person(className=="class1") from $s.getPersonList())
     then
         System.out.println("class1的个数为：" + $al.size());
 end

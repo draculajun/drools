@@ -8,10 +8,5 @@ spring:
       stat-view-servlet:
         enabled: true
   redis:
-    host: localhost
+    host: 127.0.0.1
     port: 6379
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://172.16.0.176:8761/eureka
