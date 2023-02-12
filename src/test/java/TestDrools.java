@@ -14,6 +14,7 @@ import org.kie.api.runtime.rule.QueryResultsRow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,9 @@ public class TestDrools {
 
     @Autowired
     private KieContainer kieContainer;
+
+    @Resource(name = "dbKieContainer")
+    private KieContainer dbKieContainer;
 
     @Autowired
     private KieFileSystem kieFileSystem;
@@ -172,4 +176,27 @@ public class TestDrools {
         log.info(ruleEntity.toString());
     }
 
+    /**
+     * 从db加载rule并执行
+     */
+    @Test
+    public void dbFromTest() {
+        KieSession kieSession = dbKieContainer.newKieSession();
+
+        List<Person> personList = new ArrayList<>();
+        Person p1 = Person.builder().name("p1").age(10).className("class1").build();
+        Person p2 = Person.builder().name("p2").age(11).className("class2").build();
+        Person p3 = Person.builder().name("p3").age(12).className("class1").build();
+        personList.add(p1);
+        personList.add(p2);
+        personList.add(p3);
+        School school = new School();
+        school.setPersonList(personList);
+
+        kieSession.insert(school);
+        int count = kieSession.fireAllRules();
+        System.out.println("总共执行了" + count + "个规则");
+
+        kieSession.dispose();
+    }
 }
