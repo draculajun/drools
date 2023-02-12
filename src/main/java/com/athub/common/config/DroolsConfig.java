@@ -42,7 +42,7 @@ public class DroolsConfig {
 
     @Bean(name = "dbKieContainer")
     public KieContainer dbKieContainer() {
-        KieBuilder kieBuilder = KieServices.Factory.get().newKieBuilder(kieFileSystem());
+        KieBuilder kieBuilder = getKieServices().newKieBuilder(kieFileSystem());
         kieBuilder.buildAll();
         if (kieBuilder.getResults().hasMessages(Message.Level.ERROR)) {
             throw new RuntimeException("Build Errors:\n" + kieBuilder.getResults().toString());

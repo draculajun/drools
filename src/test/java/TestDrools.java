@@ -5,12 +5,17 @@ import com.athub.rules.entity.RuleEntity;
 import com.athub.rules.entity.School;
 import com.athub.service.RuleService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.junit.jupiter.api.Test;
 import org.kie.api.builder.KieFileSystem;
+import org.kie.api.builder.Message;
+import org.kie.api.builder.Results;
+import org.kie.api.io.ResourceType;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.QueryResults;
 import org.kie.api.runtime.rule.QueryResultsRow;
+import org.kie.internal.utils.KieHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -199,4 +204,32 @@ public class TestDrools {
 
         kieSession.dispose();
     }
+
+    /**
+     * 刷新规则
+     */
+    @Test
+    public void reloadingRules() {
+        KieHelper kieHelper = new KieHelper();
+
+        List<RuleEntity> ruleEntityList = ruleService.list();
+        if (!CollectionUtils.isEmpty(ruleEntityList)) {
+            // 循环加载所有的规则
+            for (RuleEntity rule : ruleEntityList) {
+                String content = rule.getContent();
+                kieHelper.addContent(content, ResourceType.DRL);
+            }
+        }
+
+        // 校验规则是否异常
+        Results results = kieHelper.verify();
+        if (results.hasMessages(Message.Level.ERROR)) {
+            System.out.println(results.getMessages());
+            throw new IllegalStateException("Verify Errors");
+        }
+
+        // 重置容器
+        dbKieContainer = kieHelper.getKieContainer();
+    }
+
 }
