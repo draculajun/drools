@@ -26,4 +26,8 @@
         <ksession name="isFromSession"/>
     </kbase>
 
+    <kbase name="isCollect" packages="rules.isCollect">
+        <ksession name="isCollectSession"/>
+    </kbase>
+
 </kmodule>

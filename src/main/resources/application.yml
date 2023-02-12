@@ -6,7 +6,7 @@ spring:
   application:
     name: drools
   profiles:
-    active: qa
+    active: local
   servlet:
     multipart:
       max-file-size: 10MB

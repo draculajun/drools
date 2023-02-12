@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/test?serverTimezone=Asia/Shanghai&characterEncoding=UTF-8&useSSL=true&allowMultiQueries=true&rewriteBatchedStatements=true
+    username: root
+    password: root
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      stat-view-servlet:
+        enabled: true
+  redis:
+    host: localhost
+    port: 6379
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://172.16.0.176:8761/eureka

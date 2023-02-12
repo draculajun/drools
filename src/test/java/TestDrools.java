@@ -139,4 +139,25 @@ public class TestDrools {
 
         kieSession.dispose();
     }
+
+    /**
+     * 条件元素collect：可以用来汇总遍历(from)的结果
+     */
+    @Test
+    public void fromCollect() {
+        KieSession kieSession = kieContainer.newKieSession("isCollectSession");
+
+        Person p1 = Person.builder().name("p1").age(10).className("class1").build();
+        Person p2 = Person.builder().name("p2").age(11).className("class2").build();
+        Person p3 = Person.builder().name("p3").age(12).className("class1").build();
+
+        kieSession.insert(p1);
+        kieSession.insert(p2);
+        kieSession.insert(p3);
+
+        int count = kieSession.fireAllRules();
+        System.out.println("总共执行了" + count + "个规则");
+
+        kieSession.dispose();
+    }
 }
