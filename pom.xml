@@ -27,6 +27,7 @@
         <commons-text.version>1.1</commons-text.version>
         <druid.version>1.2.11</druid.version>
         <redisson-spring-boot-starter.version>3.13.6</redisson-spring-boot-starter.version>
+        <swagger.version>1.9.1.RELEASE</swagger.version>
     </properties>
 
     <dependencyManagement>
@@ -125,6 +126,12 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>${fastjson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.spring4all</groupId>
+            <artifactId>swagger-spring-boot-starter</artifactId>
+            <version>${swagger.version}</version>
         </dependency>
 
         <dependency>

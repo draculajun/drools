@@ -11,7 +11,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableDiscoveryClient
 @EnableFeignClients
 @SpringBootApplication
-@MapperScan("com.athub.**.dao.mapper")
+@MapperScan("com.athub.**.mapperdao")
 public class Application {
 
     public static void main(String[] args) {
@@ -19,4 +19,3 @@ public class Application {
     }
 
 }
-

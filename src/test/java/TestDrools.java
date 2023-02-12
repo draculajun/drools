@@ -1,7 +1,9 @@
 import com.athub.Application;
 import com.athub.rules.entity.Order;
 import com.athub.rules.entity.Person;
+import com.athub.rules.entity.RuleEntity;
 import com.athub.rules.entity.School;
+import com.athub.service.RuleService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.kie.api.builder.KieFileSystem;
@@ -27,6 +29,9 @@ public class TestDrools {
 
     @Autowired
     private KieFileSystem kieFileSystem;
+
+    @Autowired
+    private RuleService ruleService;
 
     @Test
     public void orderTest() {
@@ -160,4 +165,11 @@ public class TestDrools {
 
         kieSession.dispose();
     }
+
+    @Test
+    public void ruleMapper() {
+        RuleEntity ruleEntity = (RuleEntity) ruleService.getById(1);
+        log.info(ruleEntity.toString());
+    }
+
 }
