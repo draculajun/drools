@@ -158,7 +158,7 @@ public class TestDrools {
      * 条件元素collect：可以用来汇总遍历(from)的结果
      */
     @Test
-    public void fromCollect() {
+    public void fromCollectTest() {
         KieSession kieSession = kieContainer.newKieSession("isCollectSession");
 
         Person p1 = Person.builder().name("p1").age(10).className("class1").build();
@@ -231,5 +231,23 @@ public class TestDrools {
         // 重置容器
         dbKieContainer = kieHelper.getKieContainer();
     }
+
+
+    /**
+     * 规则继承
+     */
+    @Test
+    public void extendsTest() {
+        KieSession kieSession = kieContainer.newKieSession("isExtendsSession");
+
+        Person p1 = Person.builder().name("p1").age(10).className("class1").build();
+
+        kieSession.insert(p1);
+        int count = kieSession.fireAllRules();
+        System.out.println("总共执行了" + count + "个规则");
+
+        kieSession.dispose();
+    }
+
 
 }

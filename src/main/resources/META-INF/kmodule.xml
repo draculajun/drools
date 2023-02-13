@@ -30,4 +30,8 @@
         <ksession name="isCollectSession"/>
     </kbase>
 
+    <kbase name="isExtends" packages="rules.isExtends">
+        <ksession name="isExtendsSession"/>
+    </kbase>
+
 </kmodule>
