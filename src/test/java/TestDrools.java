@@ -234,13 +234,13 @@ public class TestDrools {
 
 
     /**
-     * 规则继承
+     * 规则继承：会先执行被继承的规则，当规则判定成功时会接着执行本身的规则，否则结束判定
      */
     @Test
     public void extendsTest() {
         KieSession kieSession = kieContainer.newKieSession("isExtendsSession");
 
-        Person p1 = Person.builder().name("p1").age(10).className("class1").build();
+        Person p1 = Person.builder().name("p1").age(10).className("class2").build();
 
         kieSession.insert(p1);
         int count = kieSession.fireAllRules();

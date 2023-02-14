@@ -22,8 +22,17 @@ rule "person_2"
         $person:Person(30 < age && age< 40)
     then
         $person.setScore(70);
+        update($person);        //update操作后，规则会将其作为初始参数来进行判断（而不是以进规则时的默认值），所以rule person_3会被执行
         System.out.println("count before:" + count);
         count = 70;
         System.out.println("count after:" + count);
         System.out.println("触发规则，30岁-40岁得70分");
+//        drools.halt();          //立即终止规则执行
+end
+
+rule "person_3"
+    when
+        $person:Person(score >= 70)
+    then
+        System.out.println("score:" + $person.getScore());
 end

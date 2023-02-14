@@ -4,12 +4,12 @@ import com.athub.rules.entity.Person;
 
 rule "extendsNo1"
     when
-        $p1:Person(className=="class2")
+        $p1:Person(className=="class1")
     then
-        System.out.println("className：class2");
+        System.out.println("className:class1");
 end
 
-rule "extendsNo2"
+rule "extendsNo2" extends "extendsNo1"
     when
         $p2:Person(name=="p1")
     then
