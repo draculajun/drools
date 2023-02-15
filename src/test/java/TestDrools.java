@@ -1,8 +1,10 @@
 import com.athub.Application;
+import com.athub.model.PersonRuleModel;
 import com.athub.rules.entity.Order;
 import com.athub.rules.entity.Person;
 import com.athub.rules.entity.RuleEntity;
 import com.athub.rules.entity.School;
+import com.athub.service.PersonService;
 import com.athub.service.RuleService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -42,6 +44,9 @@ public class TestDrools {
     @Autowired
     private RuleService ruleService;
 
+    @Autowired
+    private PersonService personService;
+
     @Test
     public void orderTest() {
 //        //第一步 获取KieServices
@@ -74,21 +79,33 @@ public class TestDrools {
     @Test
     public void personTest() {
         KieSession kieSession = kieContainer.newKieSession("person");   //需要kmodule.xml中定义
-        Person person = new Person();
-        int rulesNums;
+
+        Person p1 = Person.builder().name("a").age(1).build();
+        Person p2 = Person.builder().name("b").age(2).build();
+        Person p3 = Person.builder().name("c").age(1).build();
+        Person p4 = Person.builder().name("d").age(2).build();
+        PersonRuleModel r1 = PersonRuleModel.builder().name("a1").age(10).score(100).build();
+        PersonRuleModel r2 = PersonRuleModel.builder().name("b").age(2).score(200).build();
+        List<Person> personList = new ArrayList<>();
+        personList.add(p1);
+        personList.add(p2);
+        personList.add(p3);
+        personList.add(p4);
+        List<PersonRuleModel> ruleList = new ArrayList<>();
+        ruleList.add(r1);
+        ruleList.add(r2);
+
         try {
-            person.setName("aaa");
-            person.setAge(31);
-            kieSession.setGlobal("count", 1);
-            kieSession.insert(person);
-            rulesNums = kieSession.fireAllRules();
+            ruleList.forEach(e -> {
+                kieSession.insert(personList);
+                kieSession.insert(e);
+                kieSession.setGlobal("personService", personService);
+                int rulesNums = kieSession.fireAllRules();
+                System.out.println("总共执行了" + rulesNums + "个规则");
+            });
         } finally {
             kieSession.dispose();
         }
-
-        System.out.println("总共执行了" + rulesNums + "个规则");
-        System.out.println("规则执行完成，关闭规则");
-        System.out.println(person);
     }
 
     /**
