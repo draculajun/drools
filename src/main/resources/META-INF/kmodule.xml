@@ -11,7 +11,7 @@
         default:指定当前ksession是否为默认
         -->
         <ksession name="simpleRuleKSession" default="true"/>
-        <ksession name="person"/>
+       <!-- <ksession name="person"/>-->
     </kbase>
 
     <kbase name="isQuery" packages="rules.isQuery">

@@ -7,6 +7,6 @@ import com.athub.rules.entity.Person;
  */
 public interface PersonService {
 
-    void sayHi(Person person);
+    boolean check(Integer num);
 
 }

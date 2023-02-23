@@ -20,6 +20,8 @@ public class RuleEntity extends BaseEntity implements Serializable {
 
     private String content;
 
+    private String params;
+
 
     @Override
     public String toString() {

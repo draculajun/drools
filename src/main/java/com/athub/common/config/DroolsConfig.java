@@ -2,6 +2,7 @@ package com.athub.common.config;
 
 import com.athub.rules.entity.RuleEntity;
 import com.athub.service.RuleService;
+import com.athub.utils.KieUtils;
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieBuilder;
 import org.kie.api.builder.KieFileSystem;
@@ -47,7 +48,9 @@ public class DroolsConfig {
         if (kieBuilder.getResults().hasMessages(Message.Level.ERROR)) {
             throw new RuntimeException("Build Errors:\n" + kieBuilder.getResults().toString());
         }
-        return getKieServices().newKieContainer(kieRepository().getDefaultReleaseId());
+        KieContainer kieContainer = getKieServices().newKieContainer(kieRepository().getDefaultReleaseId());
+        KieUtils.setKieContainer(kieContainer);
+        return kieContainer;
     }
 
     @Bean
@@ -56,7 +59,7 @@ public class DroolsConfig {
         List<RuleEntity> ruleEntityList = ruleService.list();
         ruleEntityList.forEach(rule -> {
             //该目录文件为虚拟目录,不需要实际存在,**后缀一定要带.drl**
-            kieFileSystem.write("src/main/resources/" + RULES_PATH + rule.hashCode() + ".drl", rule.getContent());
+            kieFileSystem.write("src/main/resources/" + RULES_PATH + rule.getCode() + ".drl", rule.getContent());
         });
         return kieFileSystem;
     }

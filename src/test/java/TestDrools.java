@@ -8,6 +8,7 @@ import com.athub.service.PersonService;
 import com.athub.service.RuleService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.drools.core.base.RuleNameEqualsAgendaFilter;
 import org.junit.jupiter.api.Test;
 import org.kie.api.builder.KieFileSystem;
 import org.kie.api.builder.Message;
@@ -80,32 +81,25 @@ public class TestDrools {
     public void personTest() {
         KieSession kieSession = kieContainer.newKieSession("person");   //需要kmodule.xml中定义
 
-        Person p1 = Person.builder().name("a").age(1).build();
+        Person p1 = Person.builder().name("aaa").age(29).build();
         Person p2 = Person.builder().name("b").age(2).build();
         Person p3 = Person.builder().name("c").age(1).build();
         Person p4 = Person.builder().name("d").age(2).build();
-        PersonRuleModel r1 = PersonRuleModel.builder().name("a1").age(10).score(100).build();
-        PersonRuleModel r2 = PersonRuleModel.builder().name("b").age(2).score(200).build();
-        List<Person> personList = new ArrayList<>();
-        personList.add(p1);
-        personList.add(p2);
-        personList.add(p3);
-        personList.add(p4);
-        List<PersonRuleModel> ruleList = new ArrayList<>();
-        ruleList.add(r1);
-        ruleList.add(r2);
+//        PersonRuleModel r1 = PersonRuleModel.builder().name("a1").age(10).score(100).build();
+//        PersonRuleModel r2 = PersonRuleModel.builder().name("d").age(2).score(200).build();
+//        List<Person> personList = new ArrayList<>();
+//        personList.add(p1);
+//        personList.add(p2);
+//        personList.add(p3);
+//        personList.add(p4);
 
-        try {
-            ruleList.forEach(e -> {
-                kieSession.insert(personList);
-                kieSession.insert(e);
-                kieSession.setGlobal("personService", personService);
-                int rulesNums = kieSession.fireAllRules();
-                System.out.println("总共执行了" + rulesNums + "个规则");
-            });
-        } finally {
-            kieSession.dispose();
-        }
+        kieSession.insert(p1);
+        kieSession.setGlobal("personService", personService);
+        int rulesNums = kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("person_4"));
+        System.out.println("总共执行了" + rulesNums + "个规则");
+
+        kieSession.dispose();
+
     }
 
     /**
@@ -203,20 +197,13 @@ public class TestDrools {
      */
     @Test
     public void dbFromTest() {
+        Person p1 = Person.builder().name("aaa").age(29).build();
+
         KieSession kieSession = dbKieContainer.newKieSession();
+        kieSession.insert(p1);
+        kieSession.setGlobal("personService", personService);
 
-        List<Person> personList = new ArrayList<>();
-        Person p1 = Person.builder().name("p1").age(10).className("class1").build();
-        Person p2 = Person.builder().name("p2").age(11).className("class2").build();
-        Person p3 = Person.builder().name("p3").age(12).className("class1").build();
-        personList.add(p1);
-        personList.add(p2);
-        personList.add(p3);
-        School school = new School();
-        school.setPersonList(personList);
-
-        kieSession.insert(school);
-        int count = kieSession.fireAllRules();
+        int count = kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("person_4"));
         System.out.println("总共执行了" + count + "个规则");
 
         kieSession.dispose();
